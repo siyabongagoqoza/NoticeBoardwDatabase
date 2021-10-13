@@ -33,13 +33,14 @@ data2 = {
 # db.child('Events').child("Today").update({'Description': 'We are Pizzas'})
 
 # Get Data
-# data_retrieve = db.child('Events').child("Tomorrow").get()
-# for eventdata in data_retrieve.each():
-#     # print keys
-#     print(eventdata.key())
-#     # print values
-#     print(eventdata.val())
+data_retrieve = db.child('Events').child("Tomorrow").get()
 
+for eventdata in data_retrieve.each():
+    # print keys
+    # print(eventdata.key())
+    # print values
+    # print(eventdata.val())
+    eventdetails = eventdata.key() +': '+ eventdata.val()
 # Delete Data
 # data_delTmrw = db.child('Events').child("Tomorrow").get()
 # for eventdata in data_delTmrw.each():
