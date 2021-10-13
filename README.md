@@ -1,0 +1,3 @@
+# NoticeBoardwDatabase
+Dependancies
+- pyrebase
