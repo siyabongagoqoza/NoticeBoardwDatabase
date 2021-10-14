@@ -1,0 +1,16 @@
+<MyDisplay>
+    GridLayout:
+        cols:1
+        pos: 100,100
+        size: root.width/2,root.height/2
+        GridLayout:
+            cols:2
+            Label:
+                id: eventtitle
+                text: root.eventdetails
+                pos_hint: {"x":-0.3,"y":0.5}
+                font_size: "50sp"
+                text_size: root.width/3, None
+                size: self.texture_size
+
+
