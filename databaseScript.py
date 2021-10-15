@@ -17,32 +17,41 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 
 db = firebase.database()
 
-data = {
-  'Event Title': 'Pizza Day',
-  'Description': 'We eat pizzas',
-  'Date': "2021-10-15"
 
-}
-data2 = {
-  'Event Title': 'Lollipop Day',
-  'Description': 'Suckers',
-  'Date': "2021-10-14"
-
-}
+# Add Data
 wanna_add = input("Want to add an event?").lower()
 if wanna_add == "yes":
   add_eventDate = input("Add Date YYYY-MM-DD")
-  add_eventName = input("Add Event Name")
-# Add Data
-
-# db.child('Events').child(str(add_eventDate)).set(add_eventName)
+  if not(add_eventDate is None or add_eventDate == ""):
+      add_eventName = input("Add Event Name")
+      if not(add_eventName is None or add_eventName == ""):
+        db.child('Events').child(str(add_eventDate)).set(add_eventName)
+        print("The event {0} on the {1} has been added".format(add_eventName,add_eventDate))
 
 # Update Data
-# db.child('Events').child("Tomorrow").update({'Description': 'We are Pizzas'})
-# db.child('Events').child("Today").update({'Description': 'We are Pizzas'})
+wanna_update = input("Want to update an event?").lower()
+if wanna_update == 'yes':
+    updtDate = input("Type the date of the you want to update in YYYY-MM-DD format:")
+    if not(updtDate is None or updtDate == ""):
+        updtName = input("What should I name the event?")
+        if not(updtName is None or updtName == ""):
+            db.child('Events').update({updtDate: updtName})
+            print("The event on the {1} has been updated to {0}".format(updtName, updtName))
+
+
+# Delete Data
+wanna_del = input("Want to delete an event?").lower()
+if wanna_del == 'yes':
+    delDate = input("Type the date of the event you want to delete in YYYY-MM-DD format:")
+    if not(delDate is None or delDate == ""):
+        data_del = db.child('Events').get()
+        for eventdata in data_del.each():
+          if eventdata.key() == str(delDate):
+            db.child('Events').child(str(delDate)).remove()
+            print("The event on the {} was deleted".format(delDate))
 
 # Get Data
-
+print("Getting Information on the event today")
 data_retrieve = db.child('Events').get()
 for eventdata in data_retrieve.each():
     # print keys
@@ -53,14 +62,4 @@ for eventdata in data_retrieve.each():
       eventdetails = eventdata.val()
       print("true")
 
-print(eventdetails)
-# Delete Data
-# data_delTmrw = db.child('Events').child("Tomorrow").get()
-# for eventdata in data_delTmrw.each():
-#   if eventdata.val() == "Pizza Day":
-#     db.child('Events').child('Tomorrow').remove()
-
-# data_delTdy = db.child('Events').child("Today").get()
-# for eventdata in data_delTdy.each():
-#   if eventdata.val() == "Pizza Day":
-#     db.child('Events').child('Today').remove()
+print("Today is " + eventdetails)
